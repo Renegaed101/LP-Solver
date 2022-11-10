@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <numeric> 
+#include <cmath> 
 
 class fraction;
 std::ostream& operator<< (std::ostream& stream, fraction const & a);
@@ -37,6 +38,24 @@ class fraction {
         }
         
     public:
+
+        fraction (double input) {
+        
+        double integral = std::floor(input);
+        double frac = input - integral;
+
+        int precision = 1000000000; // This is the accuracy.
+
+        int gcd_ = std::gcd((int)(std::round(frac * precision)), precision);
+
+        int denominator = precision / gcd_;
+        int numerator = round(frac * precision) / gcd_;
+        
+        this->numerator = integral * denominator + numerator;
+        this->denominator = denominator;
+
+        }        
+        
         fraction (int numerator,int denominator) {
             if (denominator == 0) {
                 throw std::invalid_argument {"Denominator must be non-zero"};
