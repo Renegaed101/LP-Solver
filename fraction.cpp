@@ -73,7 +73,7 @@ class fraction {
         //Copy constructor, when a new Point is being created as a copy of an existing non-temporary Point object
         //Note compiler provides one anyway if not specified, included here to track if unnecessary copies are being made
         fraction(fraction const & other) {
-            std::cout << "Copy constructor Initialized for " << other << std::endl;
+            //std::cout << "Copy constructor Initialized for " << other << std::endl;
             numerator = other.numerator;
             denominator = other.denominator;
         }
