@@ -4,7 +4,8 @@
 #include <map>
 #include <string>
 #include <sstream>
-#include "fraction.cpp" 
+#include "fraction.cpp"
+#include "dictionary.cpp" 
 
 
 std::vector<std::string> optimizationVars;
@@ -77,12 +78,26 @@ void readInput (std::vector<std::vector<fraction>>& input) {
 }
 
 int main() {
-    
-    std::vector<std::vector<fraction>> initDic;
-    readInput(initDic);
-    print2DVector(initDic);      
-    std::cout << "The given dictionary is initally feasible: " << checkInitiallyFeasible(initDic) << std::endl;
+
+    dictionary x {};
+
+    x.print();    
+ 
+    /*
+    for (int i = 1; i < initDic.at(0).size(); i++) {
+        optimizationVars.push_back('x' + std::to_string(i));
+    }
+
+    for (int i = 1; i < initDic.size(); i++) {
+        slackVars.push_back('w' + std::to_string(i));
+    }
 
     
-   
+    if (checkInitiallyFeasible(initDic)) {
+        simplexMethod(initDic);
+    }
+    else {
+        dualMethod(initDic);
+    }
+   */
 }
