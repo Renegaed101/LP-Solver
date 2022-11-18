@@ -4,6 +4,8 @@
 class dictionary { 
 
     private:
+        std::vector<std::string> optimizationVars;
+        std::vector<std::string> slackVars;
         std::vector<std::vector<fraction>> dic;
 
         //Helper function for readInput that takes a string splits words and stores 
@@ -47,6 +49,18 @@ class dictionary {
                 }
                 std::cout << std::endl;
             } 
+        }
+
+        bool isFeasible() {
+            for (int i = 0; i < dic.size(); i++) {
+                if (i==0)
+                    continue;
+                else {
+                    if (dic.at(0).at(0).getNumerator() < 0)
+                        return false;  
+                }
+            }
+            return true; 
         }
 
 
