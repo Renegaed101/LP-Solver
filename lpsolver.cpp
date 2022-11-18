@@ -8,23 +8,6 @@
 #include "dictionary.cpp" 
 
 
-std::vector<std::string> optimizationVars;
-std::vector<std::string> slackVars;
-
-
-bool checkInitiallyFeasible (const std::vector<std::vector<fraction>>& input) {
-    for (int i = 0; i < input.size(); i++) {
-        if (i==0)
-            continue;
-        else {
-            if (input.at(0).at(0).getNumerator() < 0)
-                return false;  
-        }
-    }
-    return true; 
- }
-
-
 int main() {
 
     dictionary x {};
