@@ -38,6 +38,13 @@ class dictionary {
     public:
         dictionary() {
             readInput();
+            for (int i = 1; i < dic.at(0).size(); i++) {
+                optimizationVars.push_back('x' + std::to_string(i));
+            }
+
+            for (int i = 1; i < dic.size(); i++) {
+                slackVars.push_back('w' + std::to_string(i));
+            }
         } 
 
         
