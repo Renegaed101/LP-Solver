@@ -114,6 +114,14 @@ class fraction {
             return (fraction {a*c, b*d});
         }
 
+        fraction operator* (double const & other) const {
+            return (*this * fraction {other} );
+        }
+
+        fraction operator* (int const & other) const {
+            return (*this * fraction {other,1} );
+        }
+
         fraction operator/ (fraction const & other) const {
             int a = numerator, b = denominator, c = other.numerator, d = other.denominator;
             return (fraction {a*d, b*c});
