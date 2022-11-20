@@ -63,14 +63,14 @@ def dualMethod(Dic):
         if checkIsOptimal(dual):
             break
 
-        print ("dualPivot")
+        #print ("dualPivot")
         
         if degenPivots >= 20:
             dualLargestIncrease = blandsRule(dual)
         else:
             a = time.time()
             dualLargestIncrease = largestIncreaseRule(dual)
-            print ("Sequential Method took %f seconds" % (time.time()-a))     
+            #print ("Sequential Method took %f seconds" % (time.time()-a))     
         if dualLargestIncrease == None:
             print ("infeasible") # If the Dual is Unbounded, the Primal is infeasible
             exit()
@@ -85,7 +85,7 @@ def dualMethod(Dic):
         
         pivot(dual,dualLargestIncrease[1],dualLargestIncrease[2])
         endTime = time.time()
-        print ("Pivot took ",endTime-startTime," seconds")
+        #print ("Pivot took ",endTime-startTime," seconds")
 
     Dic = dual.dot(-1).transpose()
     
@@ -188,10 +188,7 @@ def blandsRule(Dic):
             enteringVariable = var[1]-1
             exitingVariable = exitingVariableBlands(Dic,var[1],sortedSlackVariables)
             if exitingVariable[0] == None:
-                if checkAllZeros(Dic,var[1]):
-                    continue
-                else:
-                    return None
+                 return None
             break
     #print ("Entering Variable ", optimizationVariables[enteringVariable], ",Exiting Variable ",slackVariables[exitingVariable[1]])
     return  (-1,enteringVariable,exitingVariable[1])
@@ -233,21 +230,12 @@ def largestIncreaseRule(Dic):
                 continue 
         minObjVarValue = exitingVariable(Dic,j)
         if minObjVarValue[0] == None:
-            if checkAllZeros(Dic,j):
-                continue
-            else:
-                return None
+            return None
         currentIncrease = Dic[0][j] * minObjVarValue[0]
         if currentIncrease >= largestIncrease[0]:
             largestIncrease = (currentIncrease,j-1,minObjVarValue[1]) 
 
     return largestIncrease
-
-def checkAllZeros(Dic,j):
-    for i in range (1,len(Dic)):
-        if Dic[i][j] != 0:
-            return False 
-    return True
 
 def exitingVariable(Dic,j):
     minObjVarValue = (None,"Exiting Variable Index")
