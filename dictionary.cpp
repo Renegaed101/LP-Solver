@@ -7,8 +7,8 @@ class dictionary {
         std::vector<std::string> optimizationVars;
         std::vector<std::string> slackVars;
         std::vector<std::vector<fraction>> dic;
-        int length;
-        int height;
+        int Length;
+        int Height;
 
         //Helper function for readInput that takes a string splits words and stores 
         //in a vector
@@ -36,15 +36,15 @@ class dictionary {
             }
             dic.front().insert(dic.front().begin(),fraction{0});
 
-            length = dic.front().size();
-            height = dic.size();
+            Length = dic.front().size();
+            Height = dic.size();
             
 
-            for (int i = 1; i < length; i++) {
+            for (int i = 1; i < Length; i++) {
                 dic.front().at(i) = dic.at(0).at(i) * -1;               
             }
 
-            for (int i = 1; i < height; i++) {
+            for (int i = 1; i < Height; i++) {
                 dic.at(i).insert(dic.at(i).begin(), dic.at(i).back() * -1);
                 dic.at(i).pop_back();
             }
@@ -53,11 +53,11 @@ class dictionary {
     public:
         dictionary() {
             readInput();
-            for (int i = 1; i < length; i++) {
+            for (int i = 1; i < Length; i++) {
                 optimizationVars.push_back('x' + std::to_string(i));
             }
 
-            for (int i = 1; i < height; i++) {
+            for (int i = 1; i < Height; i++) {
                 slackVars.push_back('w' + std::to_string(i));
             }
         } 
@@ -75,7 +75,7 @@ class dictionary {
 
         //Returns true if dictionary is feasible
         bool isFeasible() {
-            for (int i = 1; i < height; i++) {
+            for (int i = 1; i < Height; i++) {
                 if (dic.at(i).front().getNumerator() < 0)
                     return false;  
                 
@@ -86,7 +86,7 @@ class dictionary {
 
         //Returns true if dictionary is optimal 
         bool isOptimal() {
-            for (int i = 1; i < length; i++) {
+            for (int i = 1; i < Length; i++) {
                 if (dic.front().at(i) > 0) {
                     return false;
                 }
@@ -94,8 +94,17 @@ class dictionary {
             return true; 
         }
 
+        int length () { 
+            return Length;
+        }
+
+        int height () { 
+            return Height;
+        }
         
-        
+        std::vector<fraction>& operator[] (int i) {
+            return dic.at(i);
+        } 
 
 
 };
