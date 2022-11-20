@@ -54,7 +54,10 @@ class fraction {
         this->numerator = integral * denominator + numerator;
         this->denominator = denominator;
 
-        }        
+        }    
+
+        fraction (int numerator): fraction{numerator,1} {}
+
         
         fraction (int numerator,int denominator) {
             if (denominator == 0) {
@@ -130,6 +133,14 @@ class fraction {
         bool operator< (fraction const & other) {
             int a = numerator, b = denominator, c = other.numerator, d = other.denominator;
             return a*d < b*c;
+        }
+
+        bool operator< (double const & other) {
+            return toReal() < other; 
+        }
+
+        bool operator< (int const & other) {
+            return toReal() < (double)other;
         }
 
         fraction& operator= (std::pair<int,int> p) {
