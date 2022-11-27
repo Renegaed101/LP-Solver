@@ -6,6 +6,7 @@
 #include <sstream>
 #include "fraction.cpp"
 #include "dictionary.cpp" 
+#include <utility>
 
 struct pivotDetails {
     fraction amount {0};
@@ -14,10 +15,7 @@ struct pivotDetails {
     
 };
 
-
-void simplexMethod (dictionary lp) {
-    
-}
+struct UnboundedLPException {};
 
 void dualMethod (dictionary lp) {
     
@@ -41,7 +39,7 @@ std::pair<fraction,int> exitingVariable(dictionary lp, int j) {
     }
 
     if (unbounded) {
-        //Throw unbounded exception here, remember to catch .
+        throw UnboundedLPException {};
     }
     
     for (;i < lp.height(); i++) {
@@ -72,17 +70,32 @@ std::pair<fraction,int> exitingVariable(dictionary lp, int j) {
     return result; 
 }
 
+void simplexMethod (dictionary lp) {
+    while (true) {
+        if (lp.isOptimal()) {
+            std::cout << "optimal\n" << lp[0][0].toReal() << std::endl;
+            exit(0);
+        }
+        auto [increase,enterVar,exitVar] = largestIncreaseRule(lp);
+    }     
+}
+
+
 
 int main() {
 
     dictionary lp {};
 
     lp.print();    
- 
-    if (lp.isFeasible()) {
-        simplexMethod(lp);
-    } else {
-        dualMethod(lp);
+
+    try {
+        if (lp.isFeasible()) {
+            simplexMethod(lp);
+        } else {
+            dualMethod(lp);
+        }
+    } catch (UnboundedLPException& e) {
+        std::cout << "unbounded" << std::endl; 
     }
 
     std::cout << "Feasible: " << lp.isFeasible() << std::endl; 
