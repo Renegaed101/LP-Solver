@@ -94,6 +94,28 @@ class dictionary {
             return true; 
         }
 
+        void pivot(int enterVar, int exitVar){
+            std::string temp = optimizationVars[enterVar];
+            optimizationVars[enterVar] = slackVars[exitVar];
+            slackVars[exitVar] = temp;
+
+            fraction divisor = dic[exitVar+1][enterVar+1] * -1;
+            for (auto& elem: dic[exitVar+1]){
+                elem = elem/divisor;
+            }
+
+            for (int i = 0; i < Height; i++) {
+                if (i == exitVar+1) {
+                    continue;
+                }
+                fraction multiplier = dic[i][enterVar+1];
+                dic[i][enterVar+1] = 0;
+                //Use lambda to compute -- TO DO
+            }
+            
+
+        }
+
         int length () { 
             return Length;
         }
