@@ -107,7 +107,7 @@ def dualMethod(Dic):
 def simplexMethod(Dic): 
     
     degenPivots = 0
-    prevOptValueIncrease = -1
+    prevObjValue = None
     while True:
         if checkIsOptimal(Dic):
             print ("optimal\n%f" % (float(Dic[0][0])))
@@ -116,18 +116,21 @@ def simplexMethod(Dic):
 
         if degenPivots >= 20:    
             largestIncrease = blandsRule(Dic)
+            print("blands")
         else:
             largestIncrease = largestIncreaseRule(Dic)
+            print("largest")
+
         if largestIncrease == None:
             print ("unbounded")
             exit()
 
         if degenPivots < 20:
-            if largestIncrease[0] == prevOptValueIncrease:
+            if Dic[0][0] == prevObjValue:
                 degenPivots+=1
             else:
                 degenPivots = 0           
-            prevOptValueIncrease = largestIncrease[0]
+            prevObjValue = Dic[0][0]
         
         #print (optimizationVariables)
         #print (slackVariables)
