@@ -8,12 +8,6 @@
 #include "dictionary.cpp" 
 #include <utility>
 
-struct pivotDetails {
-    fraction amount {0};
-    int enteringVarIndex {};
-    int exitingVarIndex {};
-    
-};
 
 struct UnboundedLPException {};
 
@@ -54,16 +48,17 @@ std::pair<fraction,int> exitingVariable(dictionary lp, int j) {
     return std::pair<fraction,int>{candidateValue,exitingVariableIndex};
 }
 
- pivotDetails largestIncreaseRule(dictionary lp) {
-    pivotDetails result;
+ std::pair<int,int> largestIncreaseRule(dictionary lp) {
+    std::pair<int,int> result;
+    fraction currentMax {0};
     for (int j = 1; j < lp.length(); j++) {
         if (lp[0][j] > 0) {
             std::pair<fraction,int> exitVariable = exitingVariable(lp,j);
-            fraction currentIncrease = lp[0][j] * exitVariable.first;
-            if (currentIncrease >= result.amount) {
-                result.amount = currentIncrease;
-                result.enteringVarIndex = j-1;
-                result.exitingVarIndex = exitVariable.second;
+            fraction candidate {lp[0][j] * exitVariable.first};
+            if (candidate >= currentMax) {
+                currentMax = candidate;
+                result.first = j-1;
+                result.second = exitVariable.second;
             }
         }
     }
@@ -74,12 +69,14 @@ void simplexMethod (dictionary lp) {
     while (true) {
         if (lp.isOptimal()) {
             std::cout << "optimal\n" << lp[0][0].toReal() << std::endl;
-            exit(0);
+            return;
         }
-        auto [increase,enterVar,exitVar] = largestIncreaseRule(lp);
+        std::pair<int,int> pivotIndexes {largestIncreaseRule(lp)};
+        lp.pivot(pivotIndexes.first,pivotIndexes.second);
+        lp.print();
+        std::cout << std::endl; 
     }     
 }
-
 
 
 int main() {
@@ -87,6 +84,9 @@ int main() {
     dictionary lp {};
 
     lp.print();    
+
+    std::cout << "Feasible: " << lp.isFeasible() << std::endl; 
+    std::cout << "Optimal: " << lp.isOptimal() << std::endl;
 
     try {
         if (lp.isFeasible()) {
@@ -98,7 +98,5 @@ int main() {
         std::cout << "unbounded" << std::endl; 
     }
 
-    std::cout << "Feasible: " << lp.isFeasible() << std::endl; 
-    std::cout << "Optimal: " << lp.isOptimal() << std::endl;
-
+    lp.print();
 }
