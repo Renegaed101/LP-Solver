@@ -103,17 +103,19 @@ class dictionary {
             for (auto& elem: dic[exitVar+1]){
                 elem = elem/divisor;
             }
-
+            dic[exitVar+1][enterVar+1] = -1/divisor;
+                    
             for (int i = 0; i < Height; i++) {
                 if (i == exitVar+1) {
                     continue;
                 }
                 fraction multiplier = dic[i][enterVar+1];
                 dic[i][enterVar+1] = 0;
-                //Use lambda to compute -- TO DO
+                for (int j = 0; j < Length; j++){
+                    dic[i][j] = dic[i][j] + (dic[exitVar+1][j] * multiplier);
+                }
             }
             
-
         }
 
         int length () { 
