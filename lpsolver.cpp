@@ -54,8 +54,10 @@ std::pair<fraction,int> exitingVariable(dictionary lp, int j) {
     for (int j = 1; j < lp.length(); j++) {
         if (lp[0][j] > 0) {
             std::pair<fraction,int> exitVariable = exitingVariable(lp,j);
+            std::cout << "Exiting variable index " << exitVariable.second << std::endl;
             fraction candidate {lp[0][j] * exitVariable.first};
-            if (candidate >= currentMax) {
+            std::cout << "Candidate fraction: " << candidate << std::endl; 
+            if (candidate <= currentMax) {
                 currentMax = candidate;
                 result.first = j-1;
                 result.second = exitVariable.second;
@@ -73,8 +75,8 @@ void simplexMethod (dictionary lp) {
         }
         std::pair<int,int> pivotIndexes {largestIncreaseRule(lp)};
         lp.pivot(pivotIndexes.first,pivotIndexes.second);
-        lp.print();
-        std::cout << std::endl; 
+        //lp.print();
+        std::cout << std::endl;
     }     
 }
 
@@ -83,10 +85,12 @@ int main() {
 
     dictionary lp {};
 
-    lp.print();    
+    //lp.print();
+    //std::cout << std::endl;    
 
     std::cout << "Feasible: " << lp.isFeasible() << std::endl; 
     std::cout << "Optimal: " << lp.isOptimal() << std::endl;
+
 
     try {
         if (lp.isFeasible()) {
@@ -98,5 +102,5 @@ int main() {
         std::cout << "unbounded" << std::endl; 
     }
 
-    lp.print();
+    //lp.print();
 }
