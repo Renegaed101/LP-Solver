@@ -65,6 +65,7 @@ class dictionary {
         
         //Prints out contents of dictionary
         void print() {
+            std::cout << std::endl;
             for (const auto& i: dic) {
                 for (const auto& j: i) {
                     std::cout << j << " ";   
@@ -95,6 +96,9 @@ class dictionary {
         }
 
         void pivot(int enterVar, int exitVar){
+            std::cout << "Pivot - Entering: " << optimizationVars[enterVar] << ", Exiting: " <<
+                slackVars[exitVar] << std::endl;
+            
             std::string temp = optimizationVars[enterVar];
             optimizationVars[enterVar] = slackVars[exitVar];
             slackVars[exitVar] = temp;
@@ -103,7 +107,7 @@ class dictionary {
             for (auto& elem: dic[exitVar+1]){
                 elem = elem/divisor;
             }
-            dic[exitVar+1][enterVar+1] = -1/divisor;
+            dic[exitVar+1][enterVar+1] = fraction{-1}/divisor;
                     
             for (int i = 0; i < Height; i++) {
                 if (i == exitVar+1) {
